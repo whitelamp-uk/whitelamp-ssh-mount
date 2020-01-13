@@ -1,4 +1,5 @@
 # whitelamp-ssh-mount
-Mount SSHFS file systems at boot
+Mount file systems over SSH using sshfs
 
-A simple script to invoke with @reboot for root cron to set up your SSHFS file systems.
+A simple script for invoking with root cron to set up (with @reboot) and re-establish (minutely) a remote file system.
+
