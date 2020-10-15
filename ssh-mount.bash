@@ -81,19 +81,21 @@ done
 
 
 # Mount SSHFS
+now=$(date '+%Y-%m-%dT%H:%M:%S')
 sudo sshfs -o allow_other,IdentityFile=$idFile $remDir $mntDir
-
+err=$?
 
 
 # Report
-if [ $? = 0 ]
+if [ $err = 0 ]
 then
     notify-send -t 4000 "$0 mounted $remDir to $mntDir"
-    echo -n "$0 mounted $remDir to $mntDir - "
+    echo -n "$0 mounted $remDir to $mntDir - $now"
 else
-    notify-send -t 4000 "$0 failed to mount $remDir to $mntDir"
-    echo -n "$0 failed to mount $remDir to $mntDir - "
+    notify-send -t 4000 "$0 failed to mount $remDir to $mntDir [sshfs exit code $err]"
+    echo -n "$0 [sshfs exit code $err] failed to mount $remDir to $mntDir - $now"
+    umount $mntDir
+    echo "Unmounted for a clean mount next time
 fi
-date '+%Y-%m-%dT%H:%M:%S'
 
 
