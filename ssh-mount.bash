@@ -95,7 +95,7 @@ else
     notify-send -t 4000 "$0 failed to mount $remDir to $mntDir [sshfs exit code $err]"
     echo -n "$0 [sshfs exit code $err] failed to mount $remDir to $mntDir - $now"
     umount $mntDir
-    echo "Unmounted for a clean mount next time
+    echo "Unmounted for a clean mount next time"
 fi
 
 
