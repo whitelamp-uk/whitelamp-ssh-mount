@@ -40,39 +40,37 @@ fi
 
 
 
-echo -n "$0 started - "
+echo "$0 started"
 date '+%Y-%m-%dT%H:%M:%S'
 
 
 # Check if already mounted
 if [ $(ls -la $mntDir | grep -v '^total' | grep -vE '\s\.\.?$' | wc -l) != 0 ]
 then
-    notify-send -t 4000 "$0 found things in $mntDir, no action needed"
-    echo -n "$0 found things in $mntDir, no action needed - "
     date '+%Y-%m-%dT%H:%M:%S'
+    echo "$0 found things in $mntDir, no action needed"
     exit
 fi
 
 
 
 # Wait for a network connection
-echo -n "$0 waiting for test connection to $host - "
 date '+%Y-%m-%dT%H:%M:%S'
+echo -n "$0 waiting for test connection to $host - "
 i=0
 while [ 1 ]
 do
     i=$((i+1))
     if [ "$(echo "$(nc -zv $host $port 2>&1)" | grep succeeded)" ]
     then
-        echo -n "Successfully connected to $host - "
         date '+%Y-%m-%dT%H:%M:%S'
+        echo "Successfully connected to $host"
         break;
     fi
     if [ "$i" = "$toSecs" ]
     then
-        notify-send -t 4000 "$0 timed out on test connection to $host"
-        echo -n "$0 timed out on test connection to $host - "
         date '+%Y-%m-%dT%H:%M:%S'
+        echo "* $0 timed out on test connection to $host"
         exit
     fi
     sleep 1
@@ -89,11 +87,11 @@ err=$?
 # Report
 if [ $err = 0 ]
 then
-    notify-send -t 4000 "$0 mounted $remDir to $mntDir"
-    echo -n "$0 mounted $remDir to $mntDir - $now"
+    echo $now
+    echo "* $0 mounted $remDir to $mntDir"
 else
-    notify-send -t 4000 "$0 failed to mount $remDir to $mntDir [sshfs exit code $err]"
-    echo -n "$0 [sshfs exit code $err] failed to mount $remDir to $mntDir - $now"
+    echo $now
+    echo "* $0 failed to mount $remDir to $mntDir [sshfs exit code $err]"
     umount $mntDir
     echo "Unmounted for a clean mount next time"
 fi
